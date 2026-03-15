@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rock Paper Scissors</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    text-align:center;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:white;
+}
+
+h1{
+    margin-top:40px;
+    font-size:40px;
+}
+
+.buttons{
+    margin-top:40px;
+}
+
+button{
+    font-size:22px;
+    padding:15px 30px;
+    margin:15px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+.rock{background:#ff7675;}
+.paper{background:#74b9ff;}
+.scissors{background:#55efc4;}
+
+#result{
+    margin-top:30px;
+    font-size:28px;
+}
+
+#score{
+    margin-top:20px;
+    font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Rock Paper Scissors 🎮</h1>
+
+<div class="buttons">
+<button class="rock" onclick="play('rock')">🪨 Rock</button>
+<button class="paper" onclick="play('paper')">📄 Paper</button>
+<button class="scissors" onclick="play('scissors')">✂ Scissors</button>
+</div>
+
+<div id="result"></div>
+<div id="score">You: 0 | Computer: 0</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+let userScore=0;
+let computerScore=0;
+
+/* Start music after first user interaction */
+document.body.addEventListener("click", function(){
+    const music=document.getElementById("bgMusic");
+    if(music.paused){
+        music.play();
+    }
+});
+
+function play(userChoice){
+
+let computerChoice;
+
+/* Dumb AI (65% chance it chooses the losing move) */
+if(Math.random()<0.65){
+
+    if(userChoice==="rock"){
+        computerChoice="scissors";
+    }
+    else if(userChoice==="paper"){
+        computerChoice="rock";
+    }
+    else{
+        computerChoice="paper";
+    }
+
+}else{
+
+    const choices=["rock","paper","scissors"];
+    computerChoice=choices[Math.floor(Math.random()*3)];
+
+}
+
+let result="";
+
+if(userChoice===computerChoice){
+result="Draw 🤝";
+}
+else if(
+(userChoice==="rock" && computerChoice==="scissors") ||
+(userChoice==="paper" && computerChoice==="rock") ||
+(userChoice==="scissors" && computerChoice==="paper")
+){
+result="You Win 🎉";
+userScore++;
+}
+else{
+result="Computer Wins 🤖";
+computerScore++;
+}
+
+document.getElementById("result").innerHTML=
+"You chose <b>"+userChoice+
+"</b><br>Computer chose <b>"+computerChoice+
+"</b><br>"+result;
+
+document.getElementById("score").innerHTML=
+"You: "+userScore+" | Computer: "+computerScore;
+
+}
+
+</script>
+
+</body>
+</html>
